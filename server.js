@@ -11,6 +11,9 @@ var doWrite  = false;
 var verbose  = process.argv[2];
 
 var server = net.createServer(function(socket){
+	socket.on('error',function(e){
+		console.log('[ERROR] '+e.code);
+	});
 	socket.on('data',function(input){
 		verbose == '-v' ? console.log('Data received: '+input.toString()):'';
 		_tmp = input.toString();
