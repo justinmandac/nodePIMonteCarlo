@@ -8,10 +8,11 @@ var net = require('net');
 var code   = require('./utilities/codes');
 var dataPattern= new RegExp(/DATA:[0-9]+/);
 var doWrite  = false;
+var verbose  = process.argv[2];
 
 var server = net.createServer(function(socket){
 	socket.on('data',function(input){
-		console.log('data received: '+input.toString());
+		verbose == '-v' ? console.log('Data received: '+input.toString()):'';
 		_tmp = input.toString();
 		switch(_tmp){
 			case code.RDY: //client is ready to receive task
@@ -27,7 +28,7 @@ var server = net.createServer(function(socket){
 				if(dataPattern.test(_tmp)){
 					DONE++;
 					PSUM+= parseFloat(_tmp.split(':')[1]);					
-					console.log('PSUM = '+PSUM);	
+					verbose == '-v' ? console.log('PSUM = '+PSUM):'';	
 					if(DONE == NNODES)
 					{
 						console.log('RESULT: '+PSUM*4/NPOINTS);
@@ -39,7 +40,7 @@ var server = net.createServer(function(socket){
 			break;		
 		}		
 		if(doWrite){
-			console.log('writing '+data);
+			verbose == '-v' ? console.log('Writing '+data):'';
 			socket.write(data);
 			data = '';
 			doWrite = false; //reset
@@ -50,5 +51,6 @@ var server = net.createServer(function(socket){
 server.listen(PORT,function(e){
 	address = server.address();
 	console.log('Server opened on %j',address);
+	console.log(NNODES+' connections needed to complete PI estimation');
 });
 
