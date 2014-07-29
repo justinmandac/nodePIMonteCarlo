@@ -13,10 +13,11 @@ var isInit = false;
 var regExp = '[0-9]+';
 var div    = 0;
 
+console.log('>Parsing URI...');
 tmpURL = url.parse(URI,true,false);
 ADD = tmpURL.hostname;
 PORT= tmpURL.port;
-
+console.log('>Creating socket...');
 socket = new net.Socket();
 socket.setKeepAlive(true,10); //10ms delay
 /*
@@ -25,13 +26,23 @@ socket.setTimeout(TIMEOUT,function(){
 	socket.end();
 });
 */
+console.log('>Connecting to server...');
 socket.connect(PORT,ADD,function(e){
 	try{
 		console.log('Connection to %j at %j successful',ADD,PORT);	
 		socket.write(code.RDY); //tell server that client is ready to receive data
 	}
 	catch(e){
+		
 		console.log(e.code);
+	}
+});
+
+socket.on('error',function(e){
+	switch(e.code){
+		case 'ECONNREFUSED':
+			console.log('[ERROR] Cannot contact server. Check your network.');
+			break;
 	}
 });
 
@@ -55,7 +66,10 @@ socket.on('data',function(data){
 		console.log('MAX received: '+(NNODES  =buff[2].match(regExp)));
 		isInit = true;
 		//process data. move to a callback. find out how. 
-		
+		if(ID == null || N == null || NNODES == null){
+			console.log('Data error');
+			socket.end();
+		}
 		if(ID <= NNODES){
 			//the computation below is only valid (I think) for NNODES mod N = 0
 			//a more general formula is required to cover most combinations of

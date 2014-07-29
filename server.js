@@ -54,3 +54,7 @@ server.listen(PORT,function(e){
 	console.log(NNODES+' connections needed to complete PI estimation');
 });
 
+server.on('error',function(e){
+	console.log('[ERROR] '+e.code);
+});
+
