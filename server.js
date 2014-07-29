@@ -5,7 +5,7 @@ var CNODES  = 0; //number of connections.
 var DONE    = 0;
 var PSUM    = 0; //total of processed points from the nodes. 
 var net = require('net');
-var code   = require('./codes');
+var code   = require('./utilities/codes');
 var dataPattern= new RegExp(/DATA:[0-9]+/);
 var doWrite  = false;
 

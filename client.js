@@ -2,8 +2,8 @@
 // http://<hostname or ip>:<port>/
 var net    = require('net');
 var url    = require('url'); 
-var util   = require('./pi_utils'); //functions for data processing
-var code   = require('./codes'); //code definitions
+var util   = require('./utilities/pi_utils'); //functions for data processing
+var code   = require('./utilities/codes'); //code definitions
 var TIMEOUT= 100000; //100s timeout
 var URI    = process.argv[2];
 var ID     = 0;
