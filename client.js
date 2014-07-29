@@ -58,7 +58,7 @@ socket.on('data',function(data){
 				 by the server. Used as the divisor to compute the max range
 				 for each node. 
 	*/
-	if(!isInit){ 
+	if(!isInit){ 	
 		buff = data.toString().split(',');
 		console.log('Bytes read: '+socket.bytesRead);
 		console.log('ID  received: '+(ID = buff[0].match(regExp)));
@@ -74,6 +74,7 @@ socket.on('data',function(data){
 			//the computation below is only valid (I think) for NNODES mod N = 0
 			//a more general formula is required to cover most combinations of
 			//N and NNODES
+			console.time('Time Elapsed');
 			div = N/NNODES;
 			var min = (ID-1)*div + 1;
 			var max = ID*div;
@@ -83,7 +84,8 @@ socket.on('data',function(data){
 			var num = util.estimatePI(min,max)
 			socket.write('DATA:'+num);
 			console.log('Processing data...');			
-			socket.write(code.OKY);		
+			socket.write(code.OKY);	
+			console.timeEnd('Time Elapsed');
 		}
 		else {
 		//terminate connection if max number of connections has been reached. 
