@@ -22,12 +22,12 @@ PORT= tmpURL.port;
 verbose == '-v' ? console.log('>Creating socket...'):'';
 socket = new net.Socket();
 socket.setKeepAlive(true,10); //10ms delay
-/*
+
 socket.setTimeout(TIMEOUT,function(){
 	console.log('Connection timed out');
 	socket.end();
 });
-*/
+
 verbose == '-v' ? console.log('>Connecting to server...'):'';
 socket.connect(PORT,ADD,function(e){
 	try{
