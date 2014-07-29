@@ -1,9 +1,9 @@
+//takes in one argument from the command line
+// http://<hostname or ip>:<port>/
 var net    = require('net');
 var url    = require('url'); 
 var util   = require('./pi_utils'); //functions for data processing
 var code   = require('./codes'); //code definitions
-var PORT   = 9001;
-var ADD    = 'localhost';
 var TIMEOUT= 100000; //100s timeout
 var URI    = process.argv[2];
 var ID     = 0;
@@ -12,9 +12,10 @@ var NNODES = 0; //max number of nodes
 var isInit = false; 
 var regExp = '[0-9]+';
 var div    = 0;
-//tmpURL = url.parse(URI,true,false);
-//ADD = tmpURL.hostname;
-//PORT= tmpURL.port;
+
+tmpURL = url.parse(URI,true,false);
+ADD = tmpURL.hostname;
+PORT= tmpURL.port;
 
 socket = new net.Socket();
 socket.setKeepAlive(true,10); //10ms delay
