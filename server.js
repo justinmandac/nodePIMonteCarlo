@@ -1,6 +1,6 @@
-var PORT    = 9001; 
-var NPOINTS = 10000; //only use numbers divisible by 10 for simplicity. Please?
-var NNODES  = process.argv[2]; //number of required connections to finish processing
+var PORT     = 9001; 
+var NPOINTS  = 10000; //only use numbers divisible by 10 for simplicity. Please?
+var NNODES   = process.argv[2]; //number of required connections to finish processing
 var verbose  = process.argv[3];
 var CNODES  = 0; //number of connections.
 var DONE    = 0;
