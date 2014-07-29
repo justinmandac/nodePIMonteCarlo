@@ -40,10 +40,12 @@ socket.on('data',function(data){
 		incoming initialization data from the server is
 		a string formatted as follows:
 		(ID:x),(N:n),(MAX:m) where 
-			ID - corresponds to the nth connection to the server;
-			N  - corresponds to the number of points
+			ID - corresponds to the nth connection to the server. Used to 
+				 compute the min and max range for each node;
+			N  - corresponds to the number of points;
 			MAX- corresponds to the maximum connections needed
-				 by the server
+				 by the server. Used as the divisor to compute the max range
+				 for each node. 
 	*/
 	if(!isInit){ 
 		buff = data.toString().split(',');
@@ -55,6 +57,9 @@ socket.on('data',function(data){
 		//process data. move to a callback. find out how. 
 		
 		if(ID <= NNODES){
+			//the computation below is only valid (I think) for NNODES mod N = 0
+			//a more general formula is required to cover most combinations of
+			//N and NNODES
 			div = N/NNODES;
 			var min = (ID-1)*div + 1;
 			var max = ID*div;
@@ -74,7 +79,7 @@ socket.on('data',function(data){
 			socket.end();
 		}
 	}		
-	if(data.toString() == code.EXT){
+	if(data.toString() == code.EXT){//exit code sent by the server
 		socket.end();
 	}
 });
