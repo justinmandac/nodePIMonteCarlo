@@ -1,6 +1,6 @@
 var PORT    = 9001; 
 var NPOINTS = 10000; //only use numbers divisible by 10 for simplicity. Please?
-var NNODES  = 5; //number of required connections to finish processing
+var NNODES  = process.argv[2]; //number of required connections to finish processing
 var CNODES  = 0; //number of connections.
 var DONE    = 0;
 var PSUM    = 0; //total of processed points from the nodes. 
@@ -8,9 +8,10 @@ var net = require('net');
 var code   = require('./utilities/codes');
 var dataPattern= new RegExp(/DATA:[0-9]+/);
 var doWrite  = false;
-var verbose  = process.argv[2];
+var verbose  = process.argv[3];
 
 var server = net.createServer(function(socket){
+	console.log('Client connected...');
 	socket.on('error',function(e){
 		console.log('[ERROR] '+e.code);
 	});
